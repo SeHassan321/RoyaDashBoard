@@ -1,0 +1,88 @@
+<section class="ftco-section custom-centralized">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 custom-centralized">
+        <h2 class="heading-section">تسجيل الدخول</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="login-wrap">
+          <div class="icon custom-centralized">
+            <img
+              src="../../../assets/images/logos/WhatsApp Image 2022-11-26 at 5.14.24 PM.jpeg"
+              alt="logo"
+            />
+          </div>
+          <h3> رؤية للاثتسمار العقاري</h3>
+          <div *ngIf="errMsg">
+            <p class="custom-text-danger error-msg">{{ errMsg }}</p>
+          </div>
+          <form
+            action="#"
+            class="login-form"
+            [formGroup]="loginForm"
+            (ngSubmit)="submitLigon(loginForm)"
+          >
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Email"
+                required
+                formControlName="Email"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="
+                  loginForm.get('Email')?.errors != null &&
+                  loginForm.get('Email')?.touched
+                "
+              >
+                <p
+                  class="custom-text-danger"
+                  *ngIf="loginForm.get('Email')?.errors?.['required']"
+                >
+                  أدخل البريد الالكترونى
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                required
+                formControlName="Password"
+              />
+              <div
+                class="alert alert-danger"
+                *ngIf="
+                  loginForm.get('Password')?.errors != null &&
+                  loginForm.get('Password')?.touched
+                "
+              >
+                <p
+                  class="custom-text-danger"
+                  *ngIf="loginForm.get('Password')?.errors?.['required']"
+                >
+                  أدخل الرقم السري
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary submit"
+                [disabled]="loginForm.invalid"
+              >
+                تسجيل
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

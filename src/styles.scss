@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&family=PT+Sans+Narrow:wght@400;700&family=Shadows+Into+Light&display=swap');
+
+
+/* Footer font*/
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400&family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&family=PT+Sans+Narrow:wght@400;700&family=Shadows+Into+Light&display=swap');
+
+body{
+  /* font-family: 'Noto Kufi Arabic', sans-serif;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif; */
+  /* font-family: 'Shadows Into Light', cursive; */
+  font-family: 'Cairo', sans-serif;;
+}
+input[type="search"]{
+  margin: 1.25rem auto;
+  width: 25%;
+}
+ input[type="search"].hotelCompSearch{
+  margin: 0px;
+}
+.none{
+  display: none !important;
+}

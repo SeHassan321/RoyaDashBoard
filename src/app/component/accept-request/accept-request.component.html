@@ -1,0 +1,315 @@
+<div class="row" dir="rtl">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="custom-card-header">
+          <div>
+            <h4 class="card-title">العقارات</h4>
+          </div>
+          <div>
+
+          </div>
+        </div>
+        <div class="table-responsive">
+          <div class="row">
+
+          </div>
+          <table
+            class="table table-striped table-hover align-middle text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>
+                  العدد
+                  <span class="custom-text-primary">{{
+                    totelLenght
+                  }}</span>
+                </th>
+                <th>اسم العقار</th>
+                <th>النوع </th>
+               <th> السعر</th>
+                <th>العنوان</th>
+                <th>التفاصيل</th>
+                <th>قبول الطلب</th>
+                <th>تعديل</th>
+                <th>ازالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of productData | paginate: {
+                itemsPerPage: 50,
+                currentPage: Page ,
+                totalItems:totelLenght
+              };
+               let i = index">
+
+
+
+                <td>
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  {{ item?.name}}
+                </td>
+                <td>
+                  {{ item?.type}}
+                </td>
+
+                <td>
+                  {{ item?.price }}
+                </td>
+                <td>
+                  {{ item?.address }}
+                </td>
+
+                <td>
+                  <a
+                    class="btn btn-primary"
+                    [routerLink]="['/component/productDetails', item.id]"
+                    >المزيد</a
+                  >
+                </td>
+
+                <td  (click)="acceptProduct(item?.id)">
+                  <button class="btn btn-success">قبول الطلب</button>
+
+                </td>
+                <td>
+                  <h3
+                    (click)="getId(item.id,item?.name)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-bs-whatever="@mdo"
+                  >
+                    <i class="fa-solid fa-wrench custom-text-success"></i>
+                  </h3>
+                </td>
+
+                <td>
+                  <h3
+                    (click)="getId(item.id,item?.hotelName)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <i class="fa-solid fa-trash custom-text-danger"></i>
+                  </h3>
+                </td>
+
+              </tr>
+
+            </tbody>
+          </table>
+          <div class="custom-centralized">
+            <div
+              class="spinner-grow custom-text-primary"
+              role="status"
+              *ngIf="isLoding"
+            >
+            </div>
+
+          </div>
+
+          <pagination-controls class="text-center"  (pageChange)="pageChanged($event)" ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  for delete-->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="staticBackdropLabel">حذف العقار</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" dir="rtl" >  هل انت متأكد من حذف العقار <span class="fw-bold">{{nameOFProductYouWillDelete}}</span></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          ألغاء
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"data-bs-dismiss="modal"
+          (click)="deleteProduct(productIdBeforDeleted)"
+        >
+          تأكيد الحذف
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- model for update -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">تعديل الفندق <span class="fw-bold">{{nameOFProductYouWillDelete}}</span></h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addHotelForm" (ngSubmit)="handelSubmit(addHotelForm)">
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="اسم العقار "
+            formControlName="Name"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Name')?.errors != null &&
+              addHotelForm.get('Name')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Name')?.errors?.['required']"
+            >
+              أدخل أسم العقار
+            </p>
+          </div>
+
+          <textarea
+            type="text"
+            class="form-control"
+            placeholder="الوصف"
+            formControlName="Description"
+            cols="10"
+            rows="20"
+          ></textarea>
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Description')?.errors != null &&
+              addHotelForm.get('Description')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Description')?.errors?.['required']"
+            >
+              أدخل الوصف
+            </p>
+          </div>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="نوع العقار"
+            formControlName="Type"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Type')?.errors != null &&
+              addHotelForm.get('Type')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Type')?.errors?.['required']"
+            >
+              أدخل نوع العقار
+            </p>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="العنوان"
+            formControlName="Address"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('address')?.errors != null &&
+              addHotelForm.get('address')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('address')?.errors?.['required']"
+            >
+              أدخل نوع العقار
+            </p>
+          </div>
+
+          <input
+            type="number"
+            class="form-control"
+            placeholder=" السعر"
+            formControlName="Price"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Price')?.errors != null &&
+              addHotelForm.get('Price')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Price')?.errors?.['required']"
+            >
+              السعر
+            </p>
+          </div>
+
+          <label for="ImagesFile">يرجى ادخال 4 صور و  تسمية الصورة الرئيسية 1 </label>
+          <input
+            type="file"
+            id="ImagesFile"
+            multiple
+            class="form-control"
+            (change)="handelimage($event)"
+            placeholder="صورة الفندق"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('ImagesFile')?.errors != null &&
+              addHotelForm.get('ImagesFile')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('ImagesFile')?.errors?.['required']"
+            >
+              أدخل الصور
+            </p>
+          </div>
+          <div class="AddInaddComponent-div">
+            <button class="btn btn-primary AddInaddComponent-btn">أضافة</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

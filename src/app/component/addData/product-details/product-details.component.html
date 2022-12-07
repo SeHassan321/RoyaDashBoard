@@ -1,0 +1,44 @@
+<div class="container " dir="rtl">
+  <div class="row">
+      <div class="col-lg-6" >
+        <div class="d-flex flex-wrap custom-slider">
+          <img src="{{productDetails?.images[0]}}" class="w-100 p-2" id="main-img" (click)="slider($event)" alt="{{productDetails?.hotelName}} ">
+          <img src="{{item}}" class="w-25 p-2 class-item" (click)="slider($event)" *ngFor="let item of productDetails?.images" alt="{{productDetails?.hotelName}} ">
+      </div>
+      </div>
+    <div class="col-md-6">
+      <table class="table bg-light text-center">
+        <thead>
+          <tr>
+            <th scope="col">اسم العقار</th>
+            <td scope="col">{{productDetails?.name }}</td>
+          </tr>
+          <tr>
+            <th scope="col">النوع </th>
+            <td scope="col">{{productDetails?.type }}</td>
+          </tr>
+          <tr>
+            <th scope="col">السعر </th>
+            <td scope="col">{{productDetails?.price}}</td>
+          </tr>
+          <tr>
+            <th scope="col"> العنوان</th>
+            <td scope="col">{{productDetails?.address}}</td>
+          </tr>
+
+          <tr>
+            <th scope="col">الوصف</th>
+            <td scope="col" desc>{{productDetails?.description}}</td>
+          </tr>
+        </thead>
+      </table>
+      <div class="custom-centralized">
+        <div
+          class="spinner-grow custom-text-primary"
+          role="status"
+          *ngIf="isLoding"
+        >
+        </div>
+      </div>
+    </div>
+  </div>

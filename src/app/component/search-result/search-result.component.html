@@ -1,0 +1,414 @@
+<div class="row" dir="rtl">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="custom-card-header">
+            <h1>نتيجة البحث {{searchInput?.result}}</h1>
+        </div>
+        <div class="table-responsive">
+          <div class="row">
+            <form [formGroup]="SearchForm"  >
+
+            <input
+              type="search"
+              class="form-control"
+              placeholder="أبحث عن فندق , مدينة , دولة , قارة..."
+              formControlName="name"
+            />
+            <button id="button-addon1" type="submit" (click)="searchval()" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+
+            </form>
+          </div>
+          <table
+            class="table table-striped table-hover align-middle text-nowrap"
+          >
+            <thead>
+              <tr>
+                <th>
+                  العدد
+                  <span class="custom-text-primary">{{
+                    hotelsData.length
+                  }}</span>
+                </th>
+                <th>اسم القارة</th>
+                <th>اسم الدولة</th>
+                <th>اسم المدينة</th>
+                <th>اسم الفندق</th>
+                <th>الترتيب</th>
+                <th>التقيم</th>
+                <th>تفاصيل</th>
+                <th>Booking</th>
+                <th>تعديل</th>
+                <th>ازالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of hotelsData; let i = index">
+                <td>
+                  {{ i + 1 }}
+                </td>
+                <td>
+                  {{ item?.continentName | splitAt:'@'}}
+                </td>
+                <td>
+                  {{ item?.countryName | splitAt:'@'}}
+                </td>
+                <td>
+                  {{ item?.cityName }}
+                </td>
+                <td>
+                  {{ item?.hotelName }}
+                </td>
+                <td>
+                  {{ item?.sortByNumber }}
+                </td>
+                <td>
+                  {{ item?.rate }}
+                </td>
+                <td>
+                  <a
+                    class="btn btn-primary"
+                    [routerLink]="['/component/hotelDetails', item.id]"
+                    >المزيد</a
+                  >
+                </td>
+                <td>
+                  <a
+                    class="btn btn-primary"
+                    href="{{ item?.url }}"
+                    target="_blank"
+                    >المزيد</a
+                  >
+                </td>
+                <td>
+                  <h3
+                    (click)="getId(item.id,item?.hotelName)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    data-bs-whatever="@mdo"
+                  >
+                    <i class="fa-solid fa-wrench custom-text-success"></i>
+                  </h3>
+                </td>
+
+                <td>
+                  <h3
+                    (click)="getId(item.id,item?.hotelName)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <i class="fa-solid fa-trash custom-text-danger"></i>
+                  </h3>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="custom-centralized">
+            <div
+              class="spinner-grow custom-text-primary"
+              role="status"
+              *ngIf="isLoding"
+            >
+            </div>
+      <div class="alert alert-danger" *ngIf="hotelsData.length == 0">
+        <p class="text-danger"> لا توجد نتيجة بهذا الاسم {{searchInput?.result}}</p>
+      </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  for delete-->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="staticBackdropLabel">حذف الفندق</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" dir="rtl" >  هل انت متأكد من حذف الفندق <span class="fw-bold">{{nameOFHotelYouWillDelete}}</span></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          ألغاء
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="deleteCity(hotelIdBeforDeleted)"data-bs-dismiss="modal"
+        >
+          تأكيد الحذف
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- model for update -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">تعديل الفندق <span class="fw-bold">{{nameOFHotelYouWillDelete}}</span></h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          [formGroup]="addHotelForm"
+          (ngSubmit)="handelSubmit(addHotelForm)"
+        >
+          <input
+            type="text"
+            class="form-control"
+            (ngModelChange)="(hoteldetailes?.continentName)"
+            placeholder="اسم القارة"
+            formControlName="ContinentName"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('ContinentName')?.errors != null &&
+              addHotelForm.get('ContinentName')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('ContinentName')?.errors?.['required']"
+            >
+              أدخل أسم القارة
+            </p>
+          </div>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="اسم الدولة"
+            formControlName="CountryName"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('CountryName')?.errors != null &&
+              addHotelForm.get('CountryName')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('CountryName')?.errors?.['required']"
+            >
+              أدخل أسم الدولة
+            </p>
+          </div>
+          <label class="">المدينة</label>
+          <select class="form-select form-control" formControlName="CityId">
+            <option *ngFor="let item of CitiesData" [value]="item?.id">
+              {{ item?.cityName }}
+            </option>
+          </select>
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('CityId')?.errors != null &&
+              addHotelForm.get('CityId')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('CityId')?.errors?.['required']"
+            >
+              أدخل المدبنة
+            </p>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="اسم الفندق"
+            formControlName="HotelName"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('HotelName')?.errors != null &&
+              addHotelForm.get('HotelName')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('HotelName')?.errors?.['required']"
+            >
+              أدخل أسم الفندق
+            </p>
+          </div>
+
+          <textarea
+          type="text"
+          class="form-control"
+          placeholder=" الوصف الرئيسي"
+          formControlName="MainDescription"
+          cols="10"
+          rows="10"
+        ></textarea>
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('MainDescription')?.errors != null &&
+            addHotelForm.get('MainDescription')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('MainDescription')?.errors?.['required']"
+          >
+             أدخل الوصف الرئيسي
+          </p>
+        </div>
+          <textarea
+            type="text"
+            class="form-control"
+            placeholder="الوصف"
+            formControlName="Description"
+            rows="10"
+            cols="10"
+          ></textarea>
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Description')?.errors != null &&
+              addHotelForm.get('Description')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Description')?.errors?.['required']"
+            >
+              أدخل الوصف
+            </p>
+          </div>
+          <div class="danger text-danger mt-1" dir="rtl" >أحذر يجب أن يكون aid=1610242</div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="  Booking link"
+            formControlName="Url"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Url')?.errors != null &&
+              addHotelForm.get('Url')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Url')?.errors?.['required']"
+            >
+              Booking link أدخل
+            </p>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="ترتيب الفندق"
+            formControlName="SortByNumber"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('SortByNumber')?.errors != null &&
+              addHotelForm.get('SortByNumber')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('SortByNumber')?.errors?.['required']"
+            >
+              أدخل ترتيب الفندق
+            </p>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="التقيم"
+            formControlName="Rate"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('Rate')?.errors != null &&
+              addHotelForm.get('Rate')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('Rate')?.errors?.['required']"
+            >
+              التقيم أدخل
+            </p>
+          </div>
+
+          <label for="HotelImage">يرجى ادخال 4 صور </label>
+
+          <input
+            type="file"
+            id="HotelImage"
+            multiple
+            class="form-control"
+            (change)="handelimage($event)"
+            formControlName="image"
+            placeholder="صورة الدولة"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              addHotelForm.get('image')?.errors != null &&
+              addHotelForm.get('image')?.touched
+            "
+          >
+            <p
+              class="custom-text-danger"
+              *ngIf="addHotelForm.get('image')?.errors?.['required']"
+            >
+              أدخل الصورة
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              الغاء
+            </button>
+            <button class="btn btn-primary add-btn" data-bs-dismiss="modal">تأكيد التعديل</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

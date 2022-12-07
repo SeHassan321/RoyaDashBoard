@@ -1,0 +1,162 @@
+//
+// Xtreme Angular
+//
+
+//(Required file)
+@import "variable";
+
+// Import Bootstrap source files (Required file)
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
+//This is for the components (Required file)
+@import "core/core";
+@import "scafholdings";
+@import "components";
+
+//This is for the responsive (Required file)
+@import "responsive";
+
+//In This scss you can write your scss
+@import "custom";
+
+////***////
+///
+///
+
+:root{
+  --red: #d9534f;
+  --primary: #2962ff;
+  --muted: #AAAA;
+  --success: #5cb85c;
+}
+.custom-text-danger{
+  color: var(--red);
+}
+.bg-primary {
+  background: var(--primary)!important;
+}
+.custom-text-primary{
+  color: var(--primary);
+}
+.btn-primary{
+  background-color: $primary !important;
+}
+.custom-text-muted{
+  color: var(--muted);
+}
+.custom-text-success{
+  color: var(--success);
+}
+.btn-primary {
+  background-color: var(--primary) !important;
+}
+////**////
+.custom-centralized {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-btn{
+  font-weight: bolder;
+   margin-bottom: 0.5rem;
+   background-color: var(--primary);
+}
+.card .card-title{
+  font-weight: bolder;
+  margin-bottom: 15px;
+}
+.card-subtitle{
+  color:var(--custom-text-muted)
+}
+ input[type="search"],  input[type="search"]{
+  margin: 1.25rem auto;
+  width: 25%;
+}
+th{
+  font-weight: bolder!important;
+  font-size: 18px;
+  color: #000000;
+}
+tr{
+  text-align: center;
+}
+td h3{
+  padding-right: 0.5rem;
+  color: var(--custom-text-success);
+}
+.fa-wrench,.fa-trash{
+  cursor: pointer;
+}
+.form-control{
+  background-color: white !important;
+}
+
+////*MODAL*////
+.modal-title{
+  font-size: 18px;
+  font-weight: bolder;
+}
+input{
+margin-bottom: 10px;
+direction: rtl;
+}
+select{
+  margin-bottom: 10px;
+  direction: rtl;
+}
+.modal-body .alert,label{
+direction: rtl;
+}
+label{
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-weight: bolder!important;
+  width: 100%;
+
+}
+.modal-footer,.custom-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+.logout{
+  cursor: pointer;
+}
+.AddInaddComponent-div{
+  display: flex;
+  justify-content: center;
+}
+.AddInaddComponent-btn{
+  width: 50%;
+  margin: 0.5rem 0px ;
+}
+/****************************** TOP CARDS *****************************///
+.top-card .card-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top-card .card-text{
+margin-right: 15px;
+}
+.icon-box{
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+}
+.card-text h3{
+  margin: 0;
+  font-weight: 600;
+ }
+ .card-text small{
+  color: var(--custom-text-muted);
+  font-size: 14px;
+ }/********************************* dash board **********************************/
+ .dash-board-img {
+  height: 500px;
+ }
+ .dash-board-img img{
+  object-fit: cover;
+  width: 100%;
+ }

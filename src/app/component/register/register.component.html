@@ -1,0 +1,145 @@
+<section class="ftco-section mt-5 bg-wihte">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center mb-5">
+        <h2 class="heading-section">أنشاء حساب جديد للمساعد</h2>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-5 col-lg-4">
+        <div class="login-wrap p-4 p-md-5 bg-white">
+          <div
+            class="icon d-flex align-items-center justify-content-center"
+          ></div>
+          <div class="alert fw-bold fs-6" *ngIf="erroMasge">
+            <p class="text-danger">{{ erroMasge }}</p>
+          </div>
+          <form
+            action="#"
+            class="login-form"
+            [formGroup]="registerForm"
+            (ngSubmit)="submitRegister(registerForm)"
+          >
+            <div class="form-group">
+              <label for="">UserName :</label>
+              <input
+                type="text"
+                class="form-control rounded-left"
+                placeholder="UserName"
+                required
+                formControlName="Name"
+              />
+              <div
+                class="alert"
+                *ngIf="
+                  registerForm.get('UserName')?.errors != null &&
+                  registerForm.get('UserName')?.touched
+                "
+              >
+                <p
+                  class="text-danger"
+                  *ngIf="registerForm.get('UserName')?.errors?.['required']"
+                >
+                  أدخل الاسم
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="">Email :</label>
+              <input
+                type="text"
+                class="form-control rounded-left mb-2"
+                placeholder="Email"
+                required
+                formControlName="Email"
+              />
+              <div
+                class="alert"
+                *ngIf="
+                  registerForm.get('Email')?.errors != null &&
+                  registerForm.get('Email')?.touched
+                "
+              >
+                <p
+                  class="text-danger"
+                  *ngIf="registerForm.get('Email')?.errors?.['required']"
+                >
+                  أدخل الحساب
+                </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="nav-item">Password :</label>
+              <input
+                type="password"
+                class="form-control rounded-left"
+                placeholder="Password"
+                required
+                formControlName="Password"
+              />
+              <div
+                class="alert"
+                *ngIf="
+                  registerForm.get('Password')?.errors != null &&
+                  registerForm.get('Password')?.touched
+                "
+              >
+                <p
+                  class="text-danger"
+                  *ngIf="registerForm.get('Password')?.errors?.['required']"
+                >
+                  أدخل الرقم السري صحيح
+                </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary rounded submit p-3 px-5"
+              >
+                أنشاء
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-7 col-lg-6 bg-white rounded-4">
+        <div class="table-responsive bg-white">
+          <div
+            class="alert text-center fw-bold fs-6"
+            *ngIf="erroMasgeForDelete"
+          >
+            <p class="text-danger">{{ erroMasgeForDelete }}</p>
+          </div>
+          <table class="table align-middle mb-0" dir="rtl">
+            <thead>
+              <tr>
+                <th class="text-dark font-medium fs-4">الاسم</th>
+                <th class="text-dark font-medium fs-4">حساب المستخدم</th>
+                <th class="text-dark font-medium fs-4">الصفة</th>
+                <th class="text-dark font-medium fs-4">ازالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of allUser">
+                <ng-container *ngIf="item.role == 'Admin'">
+                  <td>
+                    {{ item?.userName }}
+                  </td>
+                  <td class="fs-4">{{ item?.email }}</td>
+                  <td class="fs-4">{{ item?.role }}</td>
+                  <td (click)="deleteUser(item?.email)">
+                    <h3 class="p-2 bg- rounded-circle d-inline-block ms-3">
+                      <i class="fa-solid fa-trash text-danger"></i>
+                    </h3>
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

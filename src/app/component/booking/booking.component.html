@@ -1,0 +1,37 @@
+<div class="col-md-12 col-lg-12  bg-white rounded-4 ">
+  <div class="table-responsive  bg-white">
+    <div class="alert text-center fw-bold fs-6" *ngIf="erroMasgeForDelete" >
+      <p class="text-danger"> {{erroMasgeForDelete}}</p>
+    </div>
+    <table class="table align-middle mb-0" dir="rtl">
+      <thead>
+        <tr>
+                <th class="text-dark font-medium fs-4"> الاسم العميل  </th>
+                <th class="text-dark font-medium fs-4">حساب العميل</th>
+                <th class="text-dark font-medium fs-4">المنتج</th>
+                <th class="text-dark font-medium fs-4">الوقت</th>
+                <th class="text-dark font-medium fs-4">الحالة</th>
+                <th class="text-dark font-medium fs-4">ازالة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of allBooking" >
+              <ng-container>
+
+              <td class="fs-4">{{item?.userName}}</td>
+              <td class="fs-4">{{item?.userEmail}}</td>
+              <td class="fs-4" [routerLink]="['/component/productDetails', item?.id]">{{item?.productName}}</td>
+              <td class="fs-4">{{item?.date}}</td>
+              <td class="fs-4">{{item?.stutes}}</td>
+              <td (click)="deleteBook(item?.id)">
+                <h3 class="p-2 bg- rounded-circle d-inline-block ms-3"><i class="fa-solid fa-trash text-danger "></i></h3>
+            </td>
+              </ng-container>
+
+
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>

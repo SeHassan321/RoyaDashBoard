@@ -1,0 +1,141 @@
+<div class="container" dir="rtl">
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="addHotelForm" (ngSubmit)="handelSubmit(addHotelForm)">
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="اسم العقار "
+          formControlName="Name"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('Name')?.errors != null &&
+            addHotelForm.get('Name')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('Name')?.errors?.['required']"
+          >
+            أدخل أسم العقار
+          </p>
+        </div>
+
+        <textarea
+          type="text"
+          class="form-control"
+          placeholder="الوصف"
+          formControlName="Description"
+          cols="10"
+          rows="20"
+        ></textarea>
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('Description')?.errors != null &&
+            addHotelForm.get('Description')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('Description')?.errors?.['required']"
+          >
+            أدخل الوصف
+          </p>
+        </div>
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="نوع العقار"
+          formControlName="Type"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('Type')?.errors != null &&
+            addHotelForm.get('Type')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('Type')?.errors?.['required']"
+          >
+            أدخل نوع العقار
+          </p>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="العنوان"
+          formControlName="address"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('address')?.errors != null &&
+            addHotelForm.get('address')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('address')?.errors?.['required']"
+          >
+            أدخل نوع العقار
+          </p>
+        </div>
+
+        <input
+          type="number"
+          class="form-control"
+          placeholder=" السعر"
+          formControlName="Price"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('Price')?.errors != null &&
+            addHotelForm.get('Price')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('Price')?.errors?.['required']"
+          >
+            السعر
+          </p>
+        </div>
+
+        <label for="ImagesFile">يرجى ادخال 4 صور و  تسمية الصورة الرئيسية 1 </label>
+        <input
+          type="file"
+          id="ImagesFile"
+          multiple
+          class="form-control"
+          (change)="handelimage($event)"
+          placeholder="صورة الفندق"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            addHotelForm.get('ImagesFile')?.errors != null &&
+            addHotelForm.get('ImagesFile')?.touched
+          "
+        >
+          <p
+            class="custom-text-danger"
+            *ngIf="addHotelForm.get('ImagesFile')?.errors?.['required']"
+          >
+            أدخل الصور
+          </p>
+        </div>
+        <div class="AddInaddComponent-div">
+          <button class="btn btn-primary AddInaddComponent-btn">أضافة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
